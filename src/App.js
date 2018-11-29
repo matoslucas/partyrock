@@ -12,10 +12,9 @@ const fb = new Facebook({
     appId: '1030493450492419',
     autoLogAppEvents: true,
     xfbml: true,
-    version: 'v3.2'
 })
 
-const TOKEN = "EAAOpOnQPWgMBADDZCUGJTFUnTZBi5qak9fzwabg2XzkWgGESwo7fGIewXQZB7aeZCgZBCAZCJbBp9CnODPCcPKbtjBKTxJAc7wcG7rx6RUbb56RheXB56IjDWg5vBt6Ot5ky9YEaOvZBEcIDczHQZAGbbBThpJuUaK4DprUKOT7yDZAk4pdTOwApCuYDi8XNry4EZD"
+const TOKEN = "EAAOpOnQPWgMBAOu2kcdDmwJl7Qi9cbmZASWyA0lsgc3gNPCfbb2G95cNSvV3dyDT3K1OJWnGGszLB546UIq1HjsZA0y8flpXne2SvMBVecYXvE0j0eORR7mPmnMZBsNrFM0YlHBsd3pqfZBQ85VdmcRm4ZBgkaUEpFL3xcWjXrGIKHBCmClDvI3j7pQTcvUgZD"
 
 
 const EventListInfo = []
@@ -79,9 +78,9 @@ class App extends React.Component {
             },
             function (res) {
                 // Insert your code here
-                // console.log(res)
+                 console.log(res)
                 if (!res.error) {
-                    EventListInfo.push(res)
+                   // EventListInfo.push(res)
                 }
 
             }
@@ -93,6 +92,8 @@ class App extends React.Component {
         const fiels = [
             "id",
             "name",
+            "type",
+            "place",
             "attending_count",
             "cover",
             "description",
@@ -111,7 +112,6 @@ class App extends React.Component {
 
                 if (!res.error) {
                     //console.log(res)
-                    EventListInfo.push(res)
                     _self.setState({ eventListInfo: res.data });
                 }
             }

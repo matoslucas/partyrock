@@ -16,10 +16,16 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Chip from '@material-ui/core/Chip';
+import FaceIcon from '@material-ui/icons/Face';
 
 const styles = theme => ({
     card: {
-        maxWidth: 400,
+        maxWidth: 300,
+        minWidth: 300,
+    },
+    margin: {
+        margin: 0,
     },
     media: {
         height: 0,
@@ -53,9 +59,22 @@ class EventCard extends React.Component {
         this.setState(state => ({ expanded: !state.expanded }));
     };
 
+    formatDate(dateTime) {
+        const d = new Date(dateTime)
+        var options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+        }
+        return new Intl.DateTimeFormat('en-US', options).format(d)
+    }
+
     render() {
         const { classes } = this.props
-        const { name, start_time, description, cover, } = this.props.data
+        const { name, interested_count, start_time, description, cover, } = this.props.data
         const charLimit = 300
         let des1, des2 = ""
         if (description) {
@@ -79,8 +98,9 @@ class EventCard extends React.Component {
                         </IconButton>
                     }
                     title={name}
-                    subheader={start_time}
+                    subheader={this.formatDate(start_time)}
                 />
+
                 <CardMedia
                     className={classes.media}
                     image={cover.source}
@@ -92,7 +112,17 @@ class EventCard extends React.Component {
                     </Typography>
                 </CardContent>
                 <CardActions className={classes.actions} disableActionSpacing>
+
+                    <Chip
+                        icon={<FaceIcon />}
+                        label={interested_count}
+                        className={classes.chip}
+                        color="secondary"
+                        deleteIcon={<FavoriteIcon />}
+                    />
+
                     <IconButton aria-label="Add to favorites">
+
                         <FavoriteIcon />
                     </IconButton>
                     <IconButton aria-label="Share">
