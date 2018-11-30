@@ -11,13 +11,17 @@ import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import red from '@material-ui/core/colors/red';
+import pink  from '@material-ui/core/colors/pink';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import SendIcon from '@material-ui/icons/Send';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
+
+import Hand from '../svg/Hand'
 
 const styles = theme => ({
     card: {
@@ -33,13 +37,13 @@ const styles = theme => ({
     },
     actions: {
         display: 'flex',
+        justifyContent: 'space-around',
     },
     expand: {
         transform: 'rotate(0deg)',
         transition: theme.transitions.create('transform', {
             duration: theme.transitions.duration.shortest,
         }),
-        marginLeft: 'auto',
         [theme.breakpoints.up('sm')]: {
             marginRight: -8,
         },
@@ -48,16 +52,31 @@ const styles = theme => ({
         transform: 'rotate(180deg)',
     },
     avatar: {
-        backgroundColor: red[500],
+        backgroundColor: pink[500],
     },
 });
 
 class EventCard extends React.Component {
-    state = { expanded: false };
 
-    handleExpandClick = () => {
+    constructor(props) {
+        super(props)
+        // Don't call this.setState() here!
+        this.state = {
+            expanded: false 
+        }
+
+        this.handleExpandClick = this.handleExpandClick.bind(this)
+        this.onClickHandler = this.onClickHandler.bind(this)
+
+    }
+
+    handleExpandClick() {
         this.setState(state => ({ expanded: !state.expanded }));
-    };
+    }
+
+    onClickHandler() {
+        this.props.onSave(this.props.data)
+    }
 
     formatDate(dateTime) {
         const d = new Date(dateTime)
@@ -73,8 +92,8 @@ class EventCard extends React.Component {
     }
 
     render() {
-        const { classes } = this.props
-        const { name, interested_count, start_time, description, cover, } = this.props.data
+        const { classes, scraping } = this.props
+        const { name, interested_count, attending_count, start_time, description, cover, } = this.props.data
         const charLimit = 300
         let des1, des2 = ""
         if (description) {
@@ -89,13 +108,19 @@ class EventCard extends React.Component {
                 <CardHeader
                     avatar={
                         <Avatar aria-label="Recipe" className={classes.avatar}>
-                            R
+                            <Hand />
                         </Avatar>
                     }
                     action={
-                        <IconButton>
-                            <MoreVertIcon />
+                        scraping ?
+                        <IconButton onClick={this.onClickHandler}>
+                            <SendIcon />
                         </IconButton>
+                        : 
+                        <IconButton onClick={this.onClickHandler}>
+                            <AddCircleIcon />
+                        </IconButton>
+                       
                     }
                     title={name}
                     subheader={this.formatDate(start_time)}
@@ -115,16 +140,21 @@ class EventCard extends React.Component {
 
                     <Chip
                         icon={<FaceIcon />}
+                        label={attending_count}
+                        className={classes.chip}
+                        color="secondary"
+                        deleteIcon={<FavoriteIcon />}
+                    />
+
+                    <Chip
+                        icon={<FavoriteIcon />}
                         label={interested_count}
                         className={classes.chip}
                         color="secondary"
                         deleteIcon={<FavoriteIcon />}
                     />
 
-                    <IconButton aria-label="Add to favorites">
-
-                        <FavoriteIcon />
-                    </IconButton>
+                    
                     <IconButton aria-label="Share">
                         <ShareIcon />
                     </IconButton>
