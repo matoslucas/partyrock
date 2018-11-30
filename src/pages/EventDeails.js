@@ -1,8 +1,23 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
+import {
+    Redirect,
+  } from "react-router-dom";
 import firebase from '../components/Firebase'
 
 class EventDeails extends React.Component {
+
+    constructor(props) {
+        super(props)
+        // Don't call this.setState() here!
+        this.state = {
+            data: {},
+        }
+
+        this.loadEventFromFireBase = this.loadEventFromFireBase.bind(this)
+        // this.onClickHandler = this.onClickHandler.bind(this)
+        // this.getMyEvents = this.getMyEvents.bind(this)
+    }
 
     componentDidMount() {
         console.log(this.props)
@@ -13,19 +28,13 @@ class EventDeails extends React.Component {
         //console.log(firebase.database().ref('/events/'))
         const { match } = this.props
         
-        //const _self = this
+        const _self = this
 
 
         firebase.database().ref('/events/'+match.params.id).once('value').then(function (snapshot) {
             console.log(snapshot.val() )
-            //console.log(snapshot )
-            if(snapshot.val()){
-
-            }else{
-                console.log('redirect')
-            }
-           
-            //_self.setState({ eventListInfo: allEvents })
+                       
+            _self.setState({ data: snapshot.val() })
         });
        
         
@@ -34,6 +43,9 @@ class EventDeails extends React.Component {
 
     render() {
         const { match } = this.props
+        const { data } = this.state
+        if (!data) return <Redirect to="/" />;
+
         return 'detils' + match.params.id
     }
 }
