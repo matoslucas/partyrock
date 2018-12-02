@@ -267,6 +267,10 @@
     csstype "^2.0.0"
     indefinite-observable "^1.0.1"
 
+"@types/node@^9.6.39":
+  version "9.6.40"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.40.tgz#2d69cefbc090cb0bb824542a4c575b14dde7d3aa"
+
 "@types/prop-types@*":
   version "15.5.6"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.6.tgz#9c03d3fed70a8d517c191b7734da2879b50ca26c"
@@ -7218,6 +7222,12 @@ react-event-listener@^0.6.2:
     "@babel/runtime" "7.0.0"
     prop-types "^15.6.0"
     warning "^4.0.1"
+
+react-google-calendar-api@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/react-google-calendar-api/-/react-google-calendar-api-1.0.9.tgz#598d95d8caff4705aae84f0a349b7918940e04e7"
+  dependencies:
+    "@types/node" "^9.6.39"
 
 react-is@^16.3.2:
   version "16.6.3"

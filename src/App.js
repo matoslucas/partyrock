@@ -11,6 +11,7 @@ import {
 import Home from './pages/Home'
 import EventList from './pages/EventList'
 import EventDeails from  './pages/EventDeails'
+import Test from './pages/Test'
 
 const theme = createMuiTheme({
     palette: {
@@ -31,6 +32,7 @@ class App extends React.Component {
                     <Switch>
                         <Route path="/lourinha" component={EventList} />
                         <Route path="/event/:id" component={EventDeails} />
+                        <Route path="/test" component={Test} />
                         <Route component={Home} />
                     </Switch>
                 </Router>

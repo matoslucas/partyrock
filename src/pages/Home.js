@@ -4,7 +4,7 @@ import firebase from '../components/Firebase'
 
 import Grid from '@material-ui/core/Grid';
 import EventCard from '../components/EventCard'
-
+import ApiCalendar from 'react-google-calendar-api';
 
 class Home extends React.Component {
 
@@ -22,6 +22,7 @@ class Home extends React.Component {
 
     componentDidMount() {
         this.loadEventsFromFireBase()
+       
     }
 
     loadEventsFromFireBase() {
@@ -35,16 +36,17 @@ class Home extends React.Component {
             //console.log(snapshot.val() )
             //console.log(snapshot )
             snapshot.forEach(child => {
-                console.log(child.val())
+                // console.log(child.val())
                 allEvents.push(child.val())
             })
             _self.setState({ eventListInfo: allEvents })
         });
-        console.log(allEvents)
+        // console.log(allEvents)
         
     }
 
     saveEvent(data) {
+        ApiCalendar.handleAuthClick();
         console.log('to calendar',data)
         
         
@@ -58,7 +60,7 @@ class Home extends React.Component {
 
                 {
                     Array.isArray(eventListInfo) ? eventListInfo.map((event, index) => {
-                        console.log(event)
+                        //console.log(event)
                         return (<Grid item key={event.id}>
                                     <EventCard data={event} onSave={this.saveEvent} />
                                 </Grid>)

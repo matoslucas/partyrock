@@ -107,7 +107,7 @@ class EventCard extends React.Component {
             <Card className={classes.card}>
                 <CardHeader
                     avatar={
-                        <Avatar aria-label="Recipe" className={classes.avatar}>
+                        <Avatar aria-label="Event" className={classes.avatar}>
                             <Hand />
                         </Avatar>
                     }
