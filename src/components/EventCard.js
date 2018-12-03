@@ -92,7 +92,7 @@ class EventCard extends React.Component {
     }
 
     render() {
-        const { classes, scraping } = this.props
+        const { classes, scraping, GoogleCalendarLink } = this.props
         const { name, interested_count, attending_count, start_time, description, cover, } = this.props.data
         const charLimit = 300
         let des1, des2 = ""
@@ -100,8 +100,6 @@ class EventCard extends React.Component {
             des1 = description.substring(0, charLimit) + '...';
             des2 = description.substring(charLimit, description.length);
         }
-
-
 
         return (
             <Card className={classes.card}>
@@ -118,7 +116,9 @@ class EventCard extends React.Component {
                         </IconButton>
                         : 
                         <IconButton onClick={this.onClickHandler}>
-                            <AddCircleIcon />
+                            {
+                                GoogleCalendarLink ? null: <AddCircleIcon />
+                            }
                         </IconButton>
                        
                     }

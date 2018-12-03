@@ -47,7 +47,8 @@ class EventList extends React.Component {
             "cover",
             "description",
             "interested_count",
-            "start_time"
+            "start_time",
+            "end_time",
         ]
 
         var params = { fields: fields.join(",") };
