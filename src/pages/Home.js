@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import EventCard from '../components/EventCard'
 import ApiCalendar from 'react-google-calendar-api';
 
+
 class Home extends React.Component {
 
     constructor(props) {
@@ -25,17 +26,23 @@ class Home extends React.Component {
         ApiCalendar.onLoad(() => {
             ApiCalendar.listenSign(this.signUpdate);
             if (ApiCalendar.sign){
-                ApiCalendar.listUpcomingEvents(100)
-              .then(({result}: any) => {
-
-                this.setGoogleCalendarEvents(result.items)
-              })
+                this.signUpdate(ApiCalendar.sign) 
             }else{
                 ApiCalendar.handleAuthClick();
             }
            
         });
 
+    }
+
+    getGoogleCalendarUpcomingEvents() {
+       
+        ApiCalendar.listUpcomingEvents(300)
+              .then(({result}: any) => {
+                this.setGoogleCalendarEvents(result.items)
+                
+              })
+        
     }
 
     componentDidMount() {
@@ -50,35 +57,30 @@ class Home extends React.Component {
     }
 
     signUpdate(sign) {
-        console.log('google calendar state: ',sign)
+        if(sign){
+            this.getGoogleCalendarUpcomingEvents()
+        }
         this.setState({
             sign
         })
     }
 
     loadEventsFromFireBase() {
-        //console.log(firebase.database().ref('/events/'))
-
         const _self = this
 
         let allEvents = []
 
         firebase.database().ref('/events/').once('value').then(function (snapshot) {
-            //console.log(snapshot.val() )
-            //console.log(snapshot )
+            
             snapshot.forEach(child => {
-                // console.log(child.val())
                 allEvents.push(child.val())
             })
             _self.setState({ PartyRockEvents: allEvents })
         });
-        // console.log(allEvents)
-        
     }
 
     saveEvent(data) {
-        console.log('to calendar',data)
-
+        
         const { PartyRockEvents } = this.state
         const _self = this
                 
@@ -100,13 +102,9 @@ class Home extends React.Component {
           if(data.place && data.place.location) {
                 eventData.location = data.place.location.latitude +','+ data.place.location.longitude;
             }
-
-            
   
         ApiCalendar.createEvent(eventData)
-            .then((data: object) => {
-                //console.log(data,data.result.htmlLink);
-                
+            .then((data: object) => {                
                 const newValue = PartyRockEvents.map((event, index) => {
                     if(event.name === eventData.summary) {
                         event.GoogleCalendarLink = data.result.htmlLink
@@ -120,9 +118,30 @@ class Home extends React.Component {
             });
     }
 
+    handleItemClick(event, name) {
+        if (name === 'sign-in') {
+          ApiCalendar.handleAuthClick();
+        } else if (name === 'sign-out') {
+          ApiCalendar.handleSignoutClick();
+        }
+    }
+    
     render() {
-        const { PartyRockEvents, GoogleCalendarEvents} = this.state
-        return (
+        const { PartyRockEvents, GoogleCalendarEvents, sign} = this.state
+        return ( 
+            <div>
+                
+                 <button
+                  onClick={(e) => this.handleItemClick(e, 'sign-in')}
+                >
+                sign-in
+              </button>
+              <button
+                  onClick={(e) => this.handleItemClick(e, 'sign-out')}
+              >
+                sign-out
+              </button>
+                
 
             <Grid container justify="center" spacing={24}>
 
@@ -133,14 +152,20 @@ class Home extends React.Component {
                         GoogleCalendarEvents.filter(gce => gce.summary === event.name).forEach(event=>{
                             GoogleCalendarLink = event.htmlLink
                         });
-                        console.log(GoogleCalendarLink)
+                        // console.log(GoogleCalendarLink)
                         return (<Grid item key={event.id}>
-                                    <EventCard data={event} onSave={this.saveEvent}  GoogleCalendarLink={GoogleCalendarLink}/>
+                                    <EventCard 
+                                        data={event} 
+                                        sign={sign}
+                                        onSave={this.saveEvent} 
+                                        GoogleCalendarLink={GoogleCalendarLink}
+                                    />
                                 </Grid>)
                     }) : null
                 }
 
             </Grid>
+            </div>
         )
     }
 }

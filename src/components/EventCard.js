@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import Card from '@material-ui/core/Card';
@@ -13,10 +14,11 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import pink  from '@material-ui/core/colors/pink';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder"
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SendIcon from '@material-ui/icons/Send';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+// import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
@@ -62,11 +64,13 @@ class EventCard extends React.Component {
         super(props)
         // Don't call this.setState() here!
         this.state = {
-            expanded: false 
+            expanded: false,
+            disabledButton:  false, 
         }
 
         this.handleExpandClick = this.handleExpandClick.bind(this)
         this.onClickHandler = this.onClickHandler.bind(this)
+        this.imageClickHandler = this.imageClickHandler.bind(this)
 
     }
 
@@ -75,6 +79,8 @@ class EventCard extends React.Component {
     }
 
     onClickHandler() {
+        //hideButton
+        this.setState({ disabledButton: true });
         this.props.onSave(this.props.data)
     }
 
@@ -91,9 +97,20 @@ class EventCard extends React.Component {
         return new Intl.DateTimeFormat('en-US', options).format(d)
     }
 
+    imageClickHandler() {
+        const { onClick, data} = this.props
+        onClick(data.id)
+    }
+
     render() {
-        const { classes, scraping, GoogleCalendarLink } = this.props
-        const { name, interested_count, attending_count, start_time, description, cover, } = this.props.data
+        const { disabledButton } = this.state
+        const { 
+            classes, 
+            scraping, 
+            GoogleCalendarLink, 
+            sign,
+         } = this.props
+        const { id, name, interested_count, attending_count, start_time, description, cover, } = this.props.data
         const charLimit = 300
         let des1, des2 = ""
         if (description) {
@@ -105,19 +122,21 @@ class EventCard extends React.Component {
             <Card className={classes.card}>
                 <CardHeader
                     avatar={
-                        <Avatar aria-label="Event" className={classes.avatar}>
-                            <Hand />
-                        </Avatar>
+                        <Link to={'/event/'+ id}>
+                            <Avatar aria-label="Event" className={classes.avatar}>
+                                <Hand />
+                            </Avatar>
+                        </Link>
                     }
                     action={
                         scraping ?
-                        <IconButton onClick={this.onClickHandler}>
+                        <IconButton onClick={this.onClickHandler} disabled={disabledButton}>
                             <SendIcon />
                         </IconButton>
                         : 
-                        <IconButton onClick={this.onClickHandler}>
+                        <IconButton onClick={this.onClickHandler} disabled={disabledButton}>
                             {
-                                GoogleCalendarLink ? null: <AddCircleIcon />
+                                sign && !GoogleCalendarLink ? <FavoriteBorderIcon /> : null
                             }
                         </IconButton>
                        
@@ -125,13 +144,16 @@ class EventCard extends React.Component {
                     title={name}
                     subheader={this.formatDate(start_time)}
                 />
-
-                <CardMedia
+                     <Link to={'/event/'+ id}>
+                     <CardMedia
                     className={classes.media}
                     image={cover.source}
                     title=""
                 />
+                </Link>
+               
                 <CardContent>
+                
                     <Typography component="p">
                         {des1}
                     </Typography>
