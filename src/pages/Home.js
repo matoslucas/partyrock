@@ -130,8 +130,8 @@ class Home extends React.Component {
         const { PartyRockEvents, GoogleCalendarEvents, sign} = this.state
         return ( 
             <div>
-                
-                 <button
+                {/**
+                  <button
                   onClick={(e) => this.handleItemClick(e, 'sign-in')}
                 >
                 sign-in
@@ -141,6 +141,8 @@ class Home extends React.Component {
               >
                 sign-out
               </button>
+                */}
+               
                 
 
             <Grid container justify="center" spacing={24}>

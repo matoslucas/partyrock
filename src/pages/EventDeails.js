@@ -4,6 +4,7 @@ import {
     Redirect,
   } from "react-router-dom";
 import firebase from '../components/Firebase'
+import EventCard from '../components/EventCard'
 
 class EventDeails extends React.Component {
 
@@ -11,7 +12,25 @@ class EventDeails extends React.Component {
         super(props)
         // Don't call this.setState() here!
         this.state = {
-            data: {},
+            data: {
+                id: 0,
+                attending_count: 0,
+                description: "",
+                name: "",
+                cover: {
+                    source: require('../svg/hand.svg')
+                },
+                start_time: new Date(),
+                end_time: new Date(),
+                place:{
+                    location: {
+                        street: "",
+                        city: "",
+                        state: "",
+                    }
+                }
+                
+            },
         }
 
         this.loadEventFromFireBase = this.loadEventFromFireBase.bind(this)
@@ -42,11 +61,24 @@ class EventDeails extends React.Component {
 
 
     render() {
-        const { match } = this.props
+        //const { match } = this.props
         const { data } = this.state
         if (!data) return <Redirect to="/" />;
-
-        return 'detils' + match.params.id
+        console.log(data)
+        //return 'detils' + match.params.id
+        return  (
+            <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                }}>
+                <EventCard 
+                    data={data} 
+                    sign={false}
+                    onSave={null} 
+                    single={true}
+                    GoogleCalendarLink={null}
+                />   
+            </div>)
     }
 }
 

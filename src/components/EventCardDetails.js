@@ -11,19 +11,14 @@ import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
-import Divider from '@material-ui/core/Divider';
-// import Typography from '@material-ui/core/Typography';
-import pink from '@material-ui/core/colors/pink';
+import Typography from '@material-ui/core/Typography';
+import pink  from '@material-ui/core/colors/pink';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder"
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SendIcon from '@material-ui/icons/Send';
-
-// import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-// import CloseIcon from '@material-ui/icons/Close';
+// import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
@@ -63,20 +58,20 @@ const styles = theme => ({
     },
 });
 
-class EventCard extends React.Component {
+class EventCardDetails extends React.Component {
 
     constructor(props) {
         super(props)
         // Don't call this.setState() here!
         this.state = {
-            expanded: this.props.single,
-            disabledButton: false,
+            expanded: false,
+            disabledButton:  false, 
         }
 
         this.handleExpandClick = this.handleExpandClick.bind(this)
         this.onClickHandler = this.onClickHandler.bind(this)
-        // this.imageClickHandler = this.imageClickHandler.bind(this)
-        this.createMarkup = this.createMarkup.bind(this)
+        this.imageClickHandler = this.imageClickHandler.bind(this)
+
     }
 
     handleExpandClick() {
@@ -91,7 +86,6 @@ class EventCard extends React.Component {
 
     formatDate(dateTime) {
         const d = new Date(dateTime)
-
         var options = {
             weekday: 'long',
             year: 'numeric',
@@ -100,41 +94,35 @@ class EventCard extends React.Component {
             hour: '2-digit',
             minute: '2-digit',
         }
-
         return new Intl.DateTimeFormat('en-US', options).format(d)
     }
 
-    createMarkup() {
-        const { description } = this.props.data
-        return { __html: description };
+    imageClickHandler() {
+        const { onClick, data} = this.props
+        onClick(data.id)
     }
 
     render() {
-        const { expanded, disabledButton } = this.state
-        const {
-            classes,
-            scraping,
-            GoogleCalendarLink,
+        const { disabledButton } = this.state
+        const { 
+            classes, 
+            scraping, 
+            GoogleCalendarLink, 
             sign,
-            single,
-        } = this.props
-        const { id, name, interested_count, attending_count, start_time, description, cover } = this.props.data
-        const { location } = this.props.data.place
-        let mapValues = ""
-        if (location) {
-            mapValues = location.street.split(' ').join('+') + '+' + location.city + '+' + location.state + '+' + location.zip
+         } = this.props
+        const { id, name, interested_count, attending_count, start_time, description, cover, } = this.props.data
+        const charLimit = 300
+        let des1, des2 = ""
+        if (description) {
+            des1 = description.substring(0, charLimit) + '...';
+            des2 = description.substring(charLimit, description.length);
         }
-
-
-        const URLTOSHARE = 'https://partyrocktonight.com/event/' + id
-
-        const URLMAP = 'https://www.google.com/maps/dir/?api=1&destination=' + mapValues
 
         return (
             <Card className={classes.card}>
                 <CardHeader
                     avatar={
-                        <Link to={single ? '/' : '/event/' + id}>
+                        <Link to={'/event/'+ id}>
                             <Avatar aria-label="Event" className={classes.avatar}>
                                 <Hand />
                             </Avatar>
@@ -142,54 +130,33 @@ class EventCard extends React.Component {
                     }
                     action={
                         scraping ?
-                            <IconButton onClick={this.onClickHandler} disabled={disabledButton}>
-                                <SendIcon />
-                            </IconButton>
-                            :
-                            <IconButton onClick={this.onClickHandler} disabled={disabledButton}>
-                                {
-                                    sign && !GoogleCalendarLink ? <FavoriteBorderIcon /> : null
-                                }
-                            </IconButton>
-
+                        <IconButton onClick={this.onClickHandler} disabled={disabledButton}>
+                            <SendIcon />
+                        </IconButton>
+                        : 
+                        <IconButton onClick={this.onClickHandler} disabled={disabledButton}>
+                            {
+                                sign && !GoogleCalendarLink ? <FavoriteBorderIcon /> : null
+                            }
+                        </IconButton>
+                       
                     }
                     title={name}
                     subheader={this.formatDate(start_time)}
                 />
-                <Link to={'/event/' + id}>
+                <Link to={'/event/'+ id}>
                     <CardMedia
                         className={classes.media}
                         image={cover.source}
                         title=""
                     />
                 </Link>
-
-                <CardContent style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    flexDirection: 'column',
-                    alignItems: 'flex-end'
-                }}>
-                    {location ?
-                        <Button
-                            href={URLMAP}
-                            target="_blank"
-                            style={{ width: '100%' }}
-                            size="small"
-                            variant="outlined"
-                            color="secondary" >
-                            {location.street + ', ' + location.city + ', ' + location.state}
-                        </Button>
-                        : null
-                    }
-
-                    {/*
-                    single? null:  
-                        <Button style={{width: '100%'}} size="small" variant="outlined" color="secondary" onClick={this.handleExpandClick}>
-                            {expanded?<CloseIcon />:<MoreHorizIcon />}
-                        </Button>
-                    */}
-
+               
+                <CardContent>
+                
+                    <Typography component="p">
+                        {des1}
+                    </Typography>
                 </CardContent>
                 <CardActions className={classes.actions} disableActionSpacing>
 
@@ -209,33 +176,28 @@ class EventCard extends React.Component {
                         deleteIcon={<FavoriteIcon />}
                     />
 
-
-                    <Fab
-                        href={'https://www.facebook.com/sharer/sharer.php?u=' + URLTOSHARE}
-                        target="_blank"
-                        size="small"
-                        aria-label="Share">
+                    
+                    <IconButton aria-label="Share">
                         <ShareIcon />
-                    </Fab>
-                    {single ? null :
-                        <Fab size="small"
-                            className={classnames(classes.expand, {
-                                [classes.expandOpen]: expanded,
-                            })}
-                            onClick={this.handleExpandClick}
-                            aria-expanded={expanded}
-                            aria-label="Show more">
-                            <ExpandMoreIcon />
-                        </Fab>
-                    }
-
+                    </IconButton>
+                    <IconButton
+                        className={classnames(classes.expand, {
+                            [classes.expandOpen]: this.state.expanded,
+                        })}
+                        onClick={this.handleExpandClick}
+                        aria-expanded={this.state.expanded}
+                        aria-label="Show more"
+                    >
+                        <ExpandMoreIcon />
+                    </IconButton>
                 </CardActions>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
                     <CardContent>
-                        <pre
-                            style={{ color: '#fff', whiteSpace: 'pre-line' }}
-                            dangerouslySetInnerHTML={{ __html: description }} />
-                        <Divider variant="middle" />
+
+                        <Typography paragraph>
+                            {des2}
+                        </Typography>
+
                     </CardContent>
                 </Collapse>
             </Card>
@@ -243,8 +205,8 @@ class EventCard extends React.Component {
     }
 }
 
-EventCard.propTypes = {
+EventCardDetails.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(EventCard);
+export default withStyles(styles)(EventCardDetails);
