@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Linkify from 'react-linkify'
 import { Link } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
@@ -104,9 +105,14 @@ class EventCard extends React.Component {
         return new Intl.DateTimeFormat('en-US', options).format(d)
     }
 
-    createMarkup() {
-        const { description } = this.props.data
-        return { __html: description };
+    createMarkup(text) {
+        if (!text) return ""
+        var newText = text.replace(
+            '(www.[a-zA-Z0-9-.]+.[a-zA-Z]{2,3}(/S*)?)/g',
+            '<a href="//$1">$1</a>'
+        )
+        console.log(newText)
+        return newText
     }
 
     render() {
@@ -234,7 +240,9 @@ class EventCard extends React.Component {
                     <CardContent>
                         <pre
                             style={{ color: '#fff', whiteSpace: 'pre-line' }}
-                            dangerouslySetInnerHTML={{ __html: description }} />
+                        >
+                            <Linkify>{description}</Linkify>
+                        </pre>
                         <Divider variant="middle" />
                     </CardContent>
                 </Collapse>

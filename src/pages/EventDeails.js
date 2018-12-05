@@ -39,7 +39,6 @@ class EventDeails extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props)
         this.loadEventFromFireBase()
     }
 
@@ -49,10 +48,7 @@ class EventDeails extends React.Component {
         
         const _self = this
 
-
-        firebase.database().ref('/events/'+match.params.id).once('value').then(function (snapshot) {
-            console.log(snapshot.val() )
-                       
+        firebase.database().ref('/events/'+match.params.id).once('value').then(function (snapshot) {                       
             _self.setState({ data: snapshot.val() })
         });
        
@@ -64,7 +60,6 @@ class EventDeails extends React.Component {
         //const { match } = this.props
         const { data } = this.state
         if (!data) return <Redirect to="/" />;
-        console.log(data)
         //return 'detils' + match.params.id
         return  (
             <div style={{

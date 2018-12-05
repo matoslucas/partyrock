@@ -1,4 +1,4 @@
-import React from 'react';
+import React,  { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import {
@@ -10,7 +10,7 @@ import {
 
 import createBrowserHistory from "history/createBrowserHistory";
 
-import ReactGA from 'react-ga'
+import withTracker from './withTracker';
 
 import Home from './pages/Home'
 import EventList from './pages/EventList'
@@ -28,23 +28,23 @@ const theme = createMuiTheme({
 });
 
 const history = createBrowserHistory()
-ReactGA.initialize('UA-130351229-1');
-history.listen((location, action) => {
-  ReactGA.pageview(location.pathname + location.search);
-  console.log(action, location.pathname, location.state);
-});
 
-class App extends React.Component {
+class App extends Component {
+
+    componentDidMount() {
+   
+
+    }
 
     render() {
         return (
             <MuiThemeProvider theme={theme}>
                 <Router history={history}>
                     <Switch>
-                        <Route path="/lourinha" component={EventList} />
-                        <Route path="/event/:id" component={EventDeails} />
-                        <Route path="/test" component={Test} />
-                        <Route path="/" component={Home} />
+                        <Route path="/lourinha" component={withTracker(EventList)} />
+                        <Route path="/event/:id" component={withTracker(EventDeails)} />
+                        <Route path="/test" component={withTracker(Test)} />
+                        <Route path="/" component={withTracker(Home)} />
                     </Switch>
                 </Router>
             </MuiThemeProvider>
