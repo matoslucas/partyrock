@@ -91,8 +91,8 @@ class EventCard extends React.Component {
     }
 
     formatDate(dateTime) {
-        const d = new Date(dateTime)
-
+       
+        let newDateString = dateTime
         var options = {
             weekday: 'long',
             year: 'numeric',
@@ -101,8 +101,15 @@ class EventCard extends React.Component {
             hour: '2-digit',
             minute: '2-digit',
         }
+        
 
-        return new Intl.DateTimeFormat('en-US', options).format(d)
+        if(window.Intl){
+            const d = new Date(dateTime)
+            newDateString = new Intl.DateTimeFormat('en-US', options).format(d)
+        }
+        console.log(dateTime, newDateString)
+
+        return newDateString
     }
 
     createMarkup(text) {
@@ -127,7 +134,7 @@ class EventCard extends React.Component {
         const { id, name, interested_count, attending_count, start_time, description, cover } = this.props.data
         const { location } = this.props.data.place
         let mapValues = ""
-        if (location) {
+        if (location && location.street && location.city && location.state &&  location.zip) {
             mapValues = location.street.split(' ').join('+') + '+' + location.city + '+' + location.state + '+' + location.zip
         }
 
