@@ -69,7 +69,7 @@ class Home extends React.Component {
         const _self = this
 
         let allEvents = []
-
+        
         firebase.database().ref('/events/').orderByChild('/start_time').once('value').then(function (snapshot) {
             
             snapshot.forEach(child => {
