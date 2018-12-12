@@ -91,7 +91,7 @@ class EventCard extends React.Component {
     }
 
     formatDate(dateTime) {
-       
+
         let newDateString = dateTime
         var options = {
             weekday: 'long',
@@ -101,9 +101,9 @@ class EventCard extends React.Component {
             hour: '2-digit',
             minute: '2-digit',
         }
-        
 
-        if(window.Intl){
+
+        if (window.Intl) {
             const d = new Date(dateTime)
             newDateString = new Intl.DateTimeFormat('en-US', options).format(d)
         }
@@ -131,11 +131,13 @@ class EventCard extends React.Component {
             sign,
             single,
         } = this.props
-        const { id, name, interested_count, attending_count, start_time, description, cover } = this.props.data
+        const { id, name, interested_count, attending_count, start_time, description, cover, place } = this.props.data
         const { location } = this.props.data.place
         let mapValues = ""
-        if (location && location.street && location.city && location.state &&  location.zip) {
+        if (location && location.street && location.city && location.state && location.zip) {
             mapValues = location.street.split(' ').join('+') + '+' + location.city + '+' + location.state + '+' + location.zip
+        } else {
+            mapValues = String(place.name).replace(/,/g, "").split(' ').join('+')
         }
 
 
@@ -193,7 +195,16 @@ class EventCard extends React.Component {
                             color="secondary" >
                             {location.street + ', ' + location.city + ', ' + location.state}
                         </Button>
-                        : null
+                        :
+                        <Button
+                            href={URLMAP}
+                            target="_blank"
+                            style={{ width: '100%' }}
+                            size="small"
+                            variant="outlined"
+                            color="secondary" >
+                            {place.name}
+                        </Button>
                     }
 
                     {/*
