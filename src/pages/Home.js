@@ -70,11 +70,12 @@ class Home extends React.Component {
 
         let allEvents = []
 
-        firebase.database().ref('/events/').once('value').then(function (snapshot) {
+        firebase.database().ref('/events/').orderByChild('/start_time').once('value').then(function (snapshot) {
             
             snapshot.forEach(child => {
                 allEvents.push(child.val())
             })
+            //console.log(allEvents)
             _self.setState({ PartyRockEvents: allEvents })
         });
     }

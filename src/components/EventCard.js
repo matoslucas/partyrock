@@ -107,7 +107,7 @@ class EventCard extends React.Component {
             const d = new Date(dateTime)
             newDateString = new Intl.DateTimeFormat('en-US', options).format(d)
         }
-        console.log(dateTime, newDateString)
+        // console.log(dateTime, newDateString)
 
         return newDateString
     }
@@ -118,7 +118,7 @@ class EventCard extends React.Component {
             '(www.[a-zA-Z0-9-.]+.[a-zA-Z]{2,3}(/S*)?)/g',
             '<a href="//$1">$1</a>'
         )
-        console.log(newText)
+        // console.log(newText)
         return newText
     }
 
