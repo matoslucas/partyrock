@@ -174,7 +174,7 @@ class EventCard extends React.Component {
                 <Link to={'/event/' + id}>
                     <CardMedia
                         className={classes.media}
-                        image={cover.source}
+                        image={cover && cover.source ? cover.source : null}
                         title=""
                     />
                 </Link>
