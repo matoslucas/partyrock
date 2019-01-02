@@ -67,10 +67,10 @@ class Home extends React.Component {
 
     formatDate(date) {
 
-        const day = date.getDate();
-        const month = date.getMonth() + 1;
+        const day = ("0" + date.getDate()).slice(-2)
+        const month = ("0" + (date.getMonth() + 1)).slice(-2)
         const year = date.getFullYear();
-
+        // console.log( year + '-' + month + '-' + day)
         return year + '-' + month + '-' + day;
     }
 
@@ -82,7 +82,7 @@ class Home extends React.Component {
         firebase.database().ref('/events/').orderByChild('/start_time').startAt(this.formatDate(new Date())).once('value').then(function (snapshot) {
 
             snapshot.forEach(child => {
-        
+                // console.log(child.val())
                 allEvents.push(child.val())
             })
             //console.log(allEvents)
