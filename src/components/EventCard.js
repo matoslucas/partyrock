@@ -145,6 +145,8 @@ class EventCard extends React.Component {
 
         const URLMAP = 'https://www.google.com/maps/dir/?api=1&destination=' + mapValues
 
+        const street = location && location.street ? location.street : "TBD"
+
         return (
             <Card className={classes.card}>
                 <CardHeader
@@ -193,7 +195,7 @@ class EventCard extends React.Component {
                             size="small"
                             variant="outlined"
                             color="secondary" >
-                            {location.street + ', ' + location.city + ', ' + location.state}
+                            { street + ', ' + location.city + ', ' + location.state}
                         </Button>
                         :
                         <Button
