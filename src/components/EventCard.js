@@ -33,7 +33,7 @@ import Hand from '../svg/Hand'
 
 const styles = theme => ({
     card: {
-        maxWidth: 300,
+        maxWidth: 350,
         minWidth: 300,
     },
     margin: {
@@ -147,6 +147,30 @@ class EventCard extends React.Component {
 
         const street = location && location.street ? location.street : "TBD"
 
+
+        let tags = "🤘 💃 🕺 👨‍🎤 🎤 🎸 🎵"+`\n`
+        tags +=`#afuegofridays`+`\n`
+        tags += `#wolverinecrossing`+`\n`
+        tags += `#livetheriv`+`\n`
+        tags += `#branburyapts`+`\n`
+        tags += `#libertysquare`+`\n`
+        tags += `#alpine_village`+`\n`
+        tags += `#raintreecommons`+`\n` 
+        tags += `#lodgesatglenwood`+`\n` 
+        tags += `#uvulife`+`\n`
+        tags += `#byulife`+`\n` 
+        tags += `#thevillageatsouthcampus`+`\n`
+        tags += `#provoparties`+`\n` 
+        tags += `#provogirls`+`\n` 
+        tags += `#uvuinstitute`+`\n` 
+        tags += `#uvuwolverines`+`\n` 
+        tags += `#byucougars`+`\n` 
+        tags += `#byucougarettes`+`\n` 
+        tags += `#provosocial`+`\n` 
+        tags += `#thetribeutah`+`\n`
+     
+
+
         return (
             <Card className={classes.card}>
                 <CardHeader
@@ -170,7 +194,7 @@ class EventCard extends React.Component {
                             </IconButton>
 
                     }
-                    title={name}
+                    title={<h3 style={{fontFamily:'Chilanka'}}>{name}</h3>}
                     subheader={this.formatDate(start_time)}
                 />
                 <Link to={'/event/' + id}>
@@ -262,6 +286,8 @@ class EventCard extends React.Component {
                             style={{ color: '#fff', whiteSpace: 'pre-line' }}
                         >
                             <Linkify>{description}</Linkify>
+                            <hr />
+                            <div>{tags}</div>
                         </pre>
                         <Divider variant="middle" />
                     </CardContent>

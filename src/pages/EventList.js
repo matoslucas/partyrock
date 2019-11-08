@@ -99,6 +99,7 @@ class EventList extends React.Component {
             <div style={{
                 display: 'flex',
                 flexDirection: 'column',
+                width: '100vw',
                 alignItems: 'center',
             }}>
                 <TextField
