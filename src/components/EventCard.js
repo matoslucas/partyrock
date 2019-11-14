@@ -148,29 +148,27 @@ class EventCard extends React.Component {
         const street = location && location.street ? location.street : "TBD"
 
 
-        let tags = "🤘 💃 🕺 👨‍🎤 🎤 🎸 🎵"+`\n`
-        tags +=`#afuegofridays`+`\n`
-        tags += `#wolverinecrossing`+`\n`
-        tags += `#livetheriv`+`\n`
-        tags += `#branburyapts`+`\n`
-        tags += `#libertysquare`+`\n`
-        tags += `#alpine_village`+`\n`
-        tags += `#raintreecommons`+`\n` 
-        tags += `#lodgesatglenwood`+`\n` 
-        tags += `#uvulife`+`\n`
-        tags += `#byulife`+`\n` 
-        tags += `#thevillageatsouthcampus`+`\n`
-        tags += `#provoparties`+`\n` 
-        tags += `#provogirls`+`\n` 
-        tags += `#uvuinstitute`+`\n` 
-        tags += `#uvuwolverines`+`\n` 
-        tags += `#byucougars`+`\n` 
-        tags += `#byucougarettes`+`\n` 
-        tags += `#provosocial`+`\n` 
-        tags += `#thetribeutah`+`\n`
-     
-
-
+        let tags = `🤘 💃 🕺 👨‍🎤 🎤 🎸 🎵 ${"\n"}`
+        tags +=`#afuegofridays ${"\n"}`
+        tags += `#wolverinecrossing ${"\n"}` 
+        tags += `#livetheriv ${"\n"}` 
+        tags += `#branburyapts ${"\n"}` 
+        tags += `#libertysquare ${"\n"}` 
+        tags += `#alpine_village ${"\n"}` 
+        tags += `#raintreecommons ${"\n"}`  
+        tags += `#lodgesatglenwood ${"\n"}`  
+        tags += `#uvulife ${"\n"}` 
+        tags += `#byulife ${"\n"}`  
+        tags += `#thevillageatsouthcampus ${"\n"}` 
+        tags += `#provoparties ${"\n"}`  
+        tags += `#provogirls ${"\n"}`  
+        tags += `#uvuinstitute ${"\n"}`  
+        tags += `#uvuwolverines ${"\n"}`  
+        tags += `#byucougars ${"\n"}`  
+        tags += `#byucougarettes ${"\n"}`  
+        tags += `#provosocial ${"\n"}`  
+        tags += `#thetribeutah ${"\n"}` 
+        
         return (
             <Card className={classes.card}>
                 <CardHeader

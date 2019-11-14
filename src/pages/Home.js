@@ -4,7 +4,7 @@ import firebase from '../components/Firebase'
 
 import Grid from '@material-ui/core/Grid';
 import EventCard from '../components/EventCard'
-import ApiCalendar from 'react-google-calendar-api';
+//import ApiCalendar from 'react-google-calendar-api';
 
 
 class Home extends React.Component {
@@ -15,7 +15,7 @@ class Home extends React.Component {
         this.state = {
             PartyRockEvents: [],
             GoogleCalendarEvents: [],
-            sign: ApiCalendar.sign,
+            sign: "", //ApiCalendar.sign,
         }
 
         this.signUpdate = this.signUpdate.bind(this)
@@ -23,6 +23,7 @@ class Home extends React.Component {
         this.setGoogleCalendarEvents = this.setGoogleCalendarEvents.bind(this)
         this.saveEvent = this.saveEvent.bind(this)
 
+        /*
         ApiCalendar.onLoad(() => {
             ApiCalendar.listenSign(this.signUpdate);
             if (ApiCalendar.sign) {
@@ -32,17 +33,18 @@ class Home extends React.Component {
             }
 
         });
+        */
 
     }
 
     getGoogleCalendarUpcomingEvents() {
-
+        /*
         ApiCalendar.listUpcomingEvents(300)
             .then(({ result }: any) => {
                 this.setGoogleCalendarEvents(result.items)
 
             })
-
+        */
     }
 
     componentDidMount() {
@@ -92,8 +94,8 @@ class Home extends React.Component {
 
     saveEvent(data) {
 
-        const { PartyRockEvents } = this.state
-        const _self = this
+        // const { PartyRockEvents } = this.state
+        // const _self = this
 
         let eventData = {
             calendarId: "primary",
@@ -113,7 +115,7 @@ class Home extends React.Component {
         if (data.place && data.place.location) {
             eventData.location = data.place.location.latitude + ',' + data.place.location.longitude;
         }
-
+        /*
         ApiCalendar.createEvent(eventData)
             .then((data: object) => {
                 const newValue = PartyRockEvents.map((event, index) => {
@@ -127,13 +129,14 @@ class Home extends React.Component {
             .catch((error: any) => {
                 console.log(error.body);
             });
+            */
     }
 
     handleItemClick(event, name) {
         if (name === 'sign-in') {
-            ApiCalendar.handleAuthClick();
+            //ApiCalendar.handleAuthClick();
         } else if (name === 'sign-out') {
-            ApiCalendar.handleSignoutClick();
+           // ApiCalendar.handleSignoutClick();
         }
     }
 
