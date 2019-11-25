@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment'
+
 import Linkify from 'react-linkify'
 import { Link } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
@@ -92,24 +94,10 @@ class EventCard extends React.Component {
 
     formatDate(dateTime) {
 
-        let newDateString = dateTime
-        var options = {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-        }
+        let newDateString = moment(dateTime).format('llll')
+        console.log('Event card',dateTime, newDateString)       
 
-
-        if (window.Intl) {
-            const d = new Date(dateTime)
-            newDateString = new Intl.DateTimeFormat('en-US', options).format(d)
-        }
-        // console.log(dateTime, newDateString)
-
-        return newDateString
+        return `${newDateString}`
     }
 
     createMarkup(text) {

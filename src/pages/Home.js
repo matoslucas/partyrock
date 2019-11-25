@@ -72,7 +72,7 @@ class Home extends React.Component {
         const day = ("0" + date.getDate()).slice(-2)
         const month = ("0" + (date.getMonth() + 1)).slice(-2)
         const year = date.getFullYear();
-        // console.log( year + '-' + month + '-' + day)
+         console.log( 'teste: ===> ',year + '-' + month + '-' + day)
         return year + '-' + month + '-' + day;
     }
 
@@ -87,7 +87,7 @@ class Home extends React.Component {
                 // console.log(child.val())
                 allEvents.push(child.val())
             })
-            //console.log(allEvents)
+            console.log(allEvents)
             _self.setState({ PartyRockEvents: allEvents })
         });
     }
